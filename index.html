@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memorama MX</title>
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Memorama MX 🇲🇽</h1>
+    <p class="subtitle">Relaciona personaje histórico con su contribución al país.</p>
+
+    <section class="panel">
+      <div class="row">
+        <label>Tamaño de tablero
+          <select id="boardSize">
+            <option value="4">4 x 4 (8 pares)</option>
+            <option value="6">6 x 6 (18 pares)</option>
+          </select>
+        </label>
+        <button id="newGameBtn">Nuevo juego</button>
+      </div>
+
+      <details>
+        <summary>Configurar contenido personalizado (JSON)</summary>
+        <p>Formato: <code>[{"person":"...","contribution":"...","image":"https://..."}]</code></p>
+        <textarea id="customData" rows="8"></textarea>
+        <div class="row">
+          <button id="loadCustomBtn">Cargar contenido</button>
+          <button id="resetDefaultBtn" class="secondary">Usar contenido por defecto</button>
+        </div>
+      </details>
+
+      <div class="stats">
+        <span id="pairsLabel">Pares: 0</span>
+        <span id="movesLabel">Movimientos: 0</span>
+        <span id="statusLabel">Estado: listo</span>
+      </div>
+    </section>
+
+    <section id="board" class="board" aria-label="Tablero memorama"></section>
+  </main>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

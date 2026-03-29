@@ -2,9 +2,12 @@ import { defaultPairs } from './data.js';
 
 const boardEl = document.getElementById('board');
 const boardSizeEl = document.getElementById('boardSize');
+const gameModeEl = document.getElementById('gameMode');
+const timeLimitEl = document.getElementById('timeLimit');
 const newGameBtn = document.getElementById('newGameBtn');
 const pairsLabel = document.getElementById('pairsLabel');
 const movesLabel = document.getElementById('movesLabel');
+const timeLabel = document.getElementById('timeLabel');
 const statusLabel = document.getElementById('statusLabel');
 const customDataEl = document.getElementById('customData');
 const loadCustomBtn = document.getElementById('loadCustomBtn');
@@ -16,6 +19,10 @@ let flipped = [];
 let moves = 0;
 let matchedCount = 0;
 let lockBoard = false;
+
+let timer = null;
+let remainingSec = 0;
+let gameFinished = false;
 
 function shuffle(arr) {
   const copy = [...arr];
@@ -38,9 +45,47 @@ function buildDeck(pairsNeeded) {
   return shuffle(cards);
 }
 
+function fmtTime(sec) {
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = Math.floor(sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
 function updateStats() {
   pairsLabel.textContent = `Pares: ${matchedCount}/${deck.length / 2}`;
   movesLabel.textContent = `Movimientos: ${moves}`;
+
+  if (gameModeEl.value === 'quiz') {
+    timeLabel.textContent = `Tiempo: ${fmtTime(remainingSec)}`;
+    timeLabel.classList.toggle('low', remainingSec <= 20);
+  } else {
+    timeLabel.textContent = 'Tiempo: --';
+    timeLabel.classList.remove('low');
+  }
+}
+
+function stopTimer() {
+  if (timer) clearInterval(timer);
+  timer = null;
+}
+
+function startTimer() {
+  stopTimer();
+  if (gameModeEl.value !== 'quiz') return;
+
+  remainingSec = Math.max(30, Number(timeLimitEl.value || 120));
+  updateStats();
+  timer = setInterval(() => {
+    if (gameFinished) return;
+    remainingSec -= 1;
+    updateStats();
+    if (remainingSec <= 0) {
+      stopTimer();
+      gameFinished = true;
+      lockBoard = true;
+      statusLabel.textContent = 'Estado: se acabó el tiempo ⏰';
+    }
+  }, 1000);
 }
 
 function createCardEl(card, idx) {
@@ -74,6 +119,8 @@ function renderBoard() {
 function reveal(index) {
   const el = boardEl.children[index];
   el.classList.remove('hidden');
+  el.classList.add('reveal');
+  setTimeout(() => el.classList.remove('reveal'), 280);
 }
 
 function hide(index) {
@@ -88,8 +135,21 @@ function setMatched(index) {
   el.disabled = true;
 }
 
+function shake(index) {
+  const el = boardEl.children[index];
+  el.classList.add('shake');
+  setTimeout(() => el.classList.remove('shake'), 350);
+}
+
+function finishWin() {
+  gameFinished = true;
+  stopTimer();
+  const suffix = gameModeEl.value === 'quiz' ? ` (${fmtTime(remainingSec)} restantes)` : '';
+  statusLabel.textContent = `Estado: ¡Ganaste! 🎉${suffix}`;
+}
+
 function onCardClick(index) {
-  if (lockBoard) return;
+  if (lockBoard || gameFinished) return;
   if (flipped.includes(index)) return;
   if (boardEl.children[index].classList.contains('matched')) return;
 
@@ -111,10 +171,12 @@ function onCardClick(index) {
     matchedCount += 1;
     flipped = [];
     updateStats();
-    if (matchedCount === deck.length / 2) statusLabel.textContent = 'Estado: ¡Ganaste! 🎉';
+    if (matchedCount === deck.length / 2) finishWin();
     return;
   }
 
+  shake(a);
+  shake(b);
   lockBoard = true;
   setTimeout(() => {
     hide(a);
@@ -136,9 +198,12 @@ function startGame() {
   moves = 0;
   matchedCount = 0;
   lockBoard = false;
-  statusLabel.textContent = 'Estado: jugando';
-  updateStats();
+  gameFinished = false;
+  statusLabel.textContent = gameModeEl.value === 'quiz' ? 'Estado: quiz en curso' : 'Estado: jugando';
+
   renderBoard();
+  startTimer();
+  updateStats();
 }
 
 function loadCustomData() {
@@ -165,7 +230,7 @@ function loadCustomData() {
 
 function resetDefault() {
   sourcePairs = [...defaultPairs];
-  customDataEl.value = '';
+  customDataEl.value = JSON.stringify(defaultPairs, null, 2);
   statusLabel.textContent = 'Estado: contenido por defecto';
   startGame();
 }
@@ -174,6 +239,8 @@ newGameBtn.addEventListener('click', startGame);
 loadCustomBtn.addEventListener('click', loadCustomData);
 resetDefaultBtn.addEventListener('click', resetDefault);
 boardSizeEl.addEventListener('change', startGame);
+gameModeEl.addEventListener('change', startGame);
+timeLimitEl.addEventListener('change', startGame);
 
 customDataEl.value = JSON.stringify(defaultPairs, null, 2);
 startGame();

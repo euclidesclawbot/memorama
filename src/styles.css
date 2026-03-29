@@ -26,11 +26,33 @@ textarea { width: 100%; margin-top: 8px; border-radius: 8px; border: 1px solid #
   font-weight: 600;
   cursor: pointer;
   user-select: none;
+  transition: transform .24s ease, box-shadow .24s ease, background .24s ease;
+  transform-style: preserve-3d;
 }
+.card:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,.12); }
 .card.hidden {
   background: linear-gradient(135deg, #3454ff, #6f85ff);
   color: transparent;
 }
+.card.reveal { animation: flipIn .3s ease; }
+.card.shake { animation: shake .35s ease; }
 .card img { max-height: 60px; max-width: 100%; object-fit: contain; display:block; margin: 0 auto 6px; }
-.card.matched { border-color: #35aa64; background: #e9faef; }
+.card.matched { border-color: #35aa64; background: #e9faef; animation: pop .28s ease; }
+#timeLabel.low { color: #b42318; font-weight: 700; }
+
+@keyframes flipIn {
+  from { transform: rotateY(90deg) scale(.95); opacity: .65; }
+  to { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
 @media (max-width: 600px) { .card { min-height: 88px; font-size: 0.9rem; } }

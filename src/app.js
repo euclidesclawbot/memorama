@@ -228,7 +228,12 @@ function startGame() {
 
 function loadCustomData() {
   try {
-    const parsed = JSON.parse(customDataEl.value || '[]');
+    const raw = (customDataEl.value || '').trim();
+    if (!raw) {
+      resetDefault();
+      return;
+    }
+    const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed) || !parsed.length) throw new Error('JSON inválido o vacío');
 
     const normalized = parsed.map((p) => ({
@@ -271,5 +276,9 @@ if (themeBtn) {
 
 const savedTheme = localStorage.getItem('memorama-theme');
 applyTheme(savedTheme || 'light');
-customDataEl.value = JSON.stringify(defaultPairs, null, 2);
+if (!customDataEl.value || !customDataEl.value.trim()) {
+  customDataEl.value = JSON.stringify(defaultPairs, null, 2);
+}
+// Garantiza que siempre exista data por defecto visible y jugable al inicio.
+if (!sourcePairs?.length) sourcePairs = [...defaultPairs];
 startGame();

@@ -98,6 +98,11 @@ function createCardEl(card, idx) {
     const img = document.createElement('img');
     img.src = card.image;
     img.alt = card.text;
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    img.onerror = () => {
+      img.remove();
+    };
     content.appendChild(img);
   }
   const txt = document.createElement('div');

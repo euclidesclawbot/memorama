@@ -1,32 +1,32 @@
 export const defaultPairs = [
   {
     person: "Benito Juárez",
-    contribution: "Consolidó las Leyes de Reforma y defendió la República",
+    contribution: "Leyes de Reforma y defensa de la República",
     image: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Benito_Juarez_2.jpg"
   },
   {
     person: "Miguel Hidalgo",
-    contribution: "Inició el movimiento de Independencia en 1810",
+    contribution: "Inició la Independencia de México (1810)",
     image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Miguel_Hidalgo_y_Costilla.jpg"
   },
   {
     person: "José María Morelos",
-    contribution: "Impulsó Sentimientos de la Nación y organizó la lucha insurgente",
+    contribution: "Sentimientos de la Nación y liderazgo insurgente",
     image: "https://upload.wikimedia.org/wikipedia/commons/8/85/Jose_Maria_Morelos.jpg"
   },
   {
     person: "Francisco I. Madero",
-    contribution: "Impulsó la Revolución de 1910 y la no reelección",
+    contribution: "No reelección e impulso de la Revolución de 1910",
     image: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Francisco_I_Madero_retouched.jpg"
   },
   {
     person: "Lázaro Cárdenas",
-    contribution: "Expropió el petróleo y fortaleció la reforma agraria",
+    contribution: "Expropiación petrolera y reforma agraria",
     image: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Lazaro_Cardenas.jpg"
   },
   {
     person: "Sor Juana Inés de la Cruz",
-    contribution: "Figura clave de la literatura novohispana y del pensamiento crítico",
+    contribution: "Figura clave de la literatura novohispana",
     image: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Sor_Juana_Ines_de_la_Cruz.jpg"
   },
   {

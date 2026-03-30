@@ -5,6 +5,7 @@ const boardSizeEl = document.getElementById('boardSize');
 const gameModeEl = document.getElementById('gameMode');
 const timeLimitEl = document.getElementById('timeLimit');
 const newGameBtn = document.getElementById('newGameBtn');
+const themeToggleEl = document.getElementById('themeToggle');
 const pairsLabel = document.getElementById('pairsLabel');
 const movesLabel = document.getElementById('movesLabel');
 const timeLabel = document.getElementById('timeLabel');
@@ -23,6 +24,13 @@ let lockBoard = false;
 let timer = null;
 let remainingSec = 0;
 let gameFinished = false;
+
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.body.classList.toggle('dark', dark);
+  themeToggleEl.checked = dark;
+  localStorage.setItem('memorama-theme', dark ? 'dark' : 'light');
+}
 
 function shuffle(arr) {
   const copy = [...arr];
@@ -246,6 +254,9 @@ resetDefaultBtn.addEventListener('click', resetDefault);
 boardSizeEl.addEventListener('change', startGame);
 gameModeEl.addEventListener('change', startGame);
 timeLimitEl.addEventListener('change', startGame);
+themeToggleEl.addEventListener('change', () => applyTheme(themeToggleEl.checked ? 'dark' : 'light'));
 
+const savedTheme = localStorage.getItem('memorama-theme');
+applyTheme(savedTheme || 'light');
 customDataEl.value = JSON.stringify(defaultPairs, null, 2);
 startGame();

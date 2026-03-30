@@ -3,6 +3,8 @@
 MVP de memorama configurable:
 - tamaño del tablero (4x4 o 6x6)
 - modo de juego: clásico o quiz con timer
+- toggle de dark mode
+- mejoras de accesibilidad visual (focus visible/contraste)
 - contenido configurable (JSON)
 - emparejar **personaje** con su **contribución**
 

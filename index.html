@@ -52,6 +52,14 @@
     <section id="board" class="board" aria-label="Tablero memorama"></section>
   </main>
 
+  <div id="timeoutOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Tiempo agotado">
+    <div class="overlayCard">
+      <h2>⏰ Tiempo agotado</h2>
+      <p>Se terminó el tiempo del modo quiz.</p>
+      <button id="retryBtn">Reintentar</button>
+    </div>
+  </div>
+
   <script type="module" src="src/app.js"></script>
 </body>
 </html>

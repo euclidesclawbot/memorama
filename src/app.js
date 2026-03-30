@@ -10,6 +10,8 @@ const pairsLabel = document.getElementById('pairsLabel');
 const movesLabel = document.getElementById('movesLabel');
 const timeLabel = document.getElementById('timeLabel');
 const statusLabel = document.getElementById('statusLabel');
+const timeoutOverlayEl = document.getElementById('timeoutOverlay');
+const retryBtn = document.getElementById('retryBtn');
 const customDataEl = document.getElementById('customData');
 const loadCustomBtn = document.getElementById('loadCustomBtn');
 const resetDefaultBtn = document.getElementById('resetDefaultBtn');
@@ -209,6 +211,7 @@ function onCardClick(index) {
 }
 
 function startGame() {
+  if (timeoutOverlayEl) timeoutOverlayEl.classList.add('hidden');
   const size = Number(boardSizeEl.value);
   const totalCards = size * size;
   const pairsNeeded = totalCards / 2;
@@ -273,6 +276,7 @@ if (themeBtn) {
     toggleTheme();
   }, { passive: false });
 }
+if (retryBtn) retryBtn.addEventListener('click', startGame);
 
 const savedTheme = localStorage.getItem('memorama-theme');
 applyTheme(savedTheme || 'light');

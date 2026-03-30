@@ -5,7 +5,7 @@ const boardSizeEl = document.getElementById('boardSize');
 const gameModeEl = document.getElementById('gameMode');
 const timeLimitEl = document.getElementById('timeLimit');
 const newGameBtn = document.getElementById('newGameBtn');
-const themeToggleEl = document.getElementById('themeToggle');
+const themeBtn = document.getElementById('themeBtn');
 const pairsLabel = document.getElementById('pairsLabel');
 const movesLabel = document.getElementById('movesLabel');
 const timeLabel = document.getElementById('timeLabel');
@@ -28,8 +28,15 @@ let gameFinished = false;
 function applyTheme(theme) {
   const dark = theme === 'dark';
   document.body.classList.toggle('dark', dark);
-  themeToggleEl.checked = dark;
+  document.documentElement.classList.toggle('dark', dark);
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  if (themeBtn) themeBtn.textContent = dark ? '☀️ Light' : '🌙 Dark';
   localStorage.setItem('memorama-theme', dark ? 'dark' : 'light');
+}
+
+function toggleTheme() {
+  const current = localStorage.getItem('memorama-theme') || 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
 }
 
 function shuffle(arr) {
@@ -254,14 +261,15 @@ resetDefaultBtn.addEventListener('click', resetDefault);
 boardSizeEl.addEventListener('change', startGame);
 gameModeEl.addEventListener('change', startGame);
 timeLimitEl.addEventListener('change', startGame);
-if (themeToggleEl) {
-  themeToggleEl.addEventListener('change', () => applyTheme(themeToggleEl.checked ? 'dark' : 'light'));
-  themeToggleEl.addEventListener('click', () => applyTheme(themeToggleEl.checked ? 'dark' : 'light'));
+if (themeBtn) {
+  themeBtn.addEventListener('click', toggleTheme);
+  themeBtn.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    toggleTheme();
+  }, { passive: false });
 }
 
 const savedTheme = localStorage.getItem('memorama-theme');
 applyTheme(savedTheme || 'light');
 customDataEl.value = JSON.stringify(defaultPairs, null, 2);
-startGame();
-Pairs, null, 2);
 startGame();

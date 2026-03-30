@@ -72,6 +72,7 @@ function updateStats() {
   pairsLabel.textContent = `Pares: ${matchedCount}/${deck.length / 2}`;
   movesLabel.textContent = `Movimientos: ${moves}`;
 
+  if (!timeLabel) return;
   if (gameModeEl.value === 'quiz') {
     timeLabel.textContent = `Tiempo: ${fmtTime(remainingSec)}`;
     timeLabel.classList.toggle('low', remainingSec <= 20);
@@ -90,7 +91,7 @@ function startTimer() {
   stopTimer();
   if (gameModeEl.value !== 'quiz') return;
 
-  remainingSec = Math.max(30, Number(timeLimitEl.value || 120));
+  remainingSec = Math.max(5, Number(timeLimitEl.value || 120));
   updateStats();
   timer = setInterval(() => {
     if (gameFinished) return;

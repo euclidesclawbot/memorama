@@ -254,9 +254,14 @@ resetDefaultBtn.addEventListener('click', resetDefault);
 boardSizeEl.addEventListener('change', startGame);
 gameModeEl.addEventListener('change', startGame);
 timeLimitEl.addEventListener('change', startGame);
-themeToggleEl.addEventListener('change', () => applyTheme(themeToggleEl.checked ? 'dark' : 'light'));
+if (themeToggleEl) {
+  themeToggleEl.addEventListener('change', () => applyTheme(themeToggleEl.checked ? 'dark' : 'light'));
+  themeToggleEl.addEventListener('click', () => applyTheme(themeToggleEl.checked ? 'dark' : 'light'));
+}
 
 const savedTheme = localStorage.getItem('memorama-theme');
 applyTheme(savedTheme || 'light');
 customDataEl.value = JSON.stringify(defaultPairs, null, 2);
+startGame();
+Pairs, null, 2);
 startGame();
